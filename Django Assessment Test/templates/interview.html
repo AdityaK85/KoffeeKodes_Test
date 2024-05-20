@@ -1,0 +1,182 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% block customStyles %}
+
+<style>
+	.modal-backdrop{
+		display: none;
+	}
+</style>
+
+{% endblock %}
+
+
+{% block pageTitle %}
+
+{% if interview_access %}
+<button id="addButton" class="btn btn-sm btn-info float-end"  >Add </button>
+{% endif %}
+
+{% endblock %}
+
+{% block content %}
+
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover text-center" id="interviewer_tbl" style="width:100%;">
+                <thead>
+                <tr>
+                    <th>Sr.No.</th>
+                    <th>Title</th>
+                    <th>Candidate Name</th>
+                    <th>Interview Date</th>
+                    <th>Interviewer</th>
+                    <th>Notes</th>
+                    <th>Created Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in interview_obj %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{i.title}}</td>
+                        <td>{{i.candidate_name}}</td>
+                        <td>{{i.interview_date}}</td>
+                        <td>{{i.interviewer}}</td>
+                        <td>{{i.notes}}</td>
+                        <td>{{i.created_dt|date:'d-m-Y'}}</td>
+                            </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style="background-color: rgba(0, 0, 0, 0.5); margin-top: 65px;">
+		<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalCenterTitle">Schedule Interview</h5>
+			<button type="button" class="close" id="close_btn" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			</div>
+			<div class="modal-body" id="data-container">
+				<div class="row">
+                    <div class="col-6">
+                        <label for="">Title</label>
+                        <input type="text" class="form-control" name="" placeholder="Title" id="title">
+                    </div>
+                    <div class="col-6">
+                        <label for="">Candidate Name</label>
+                        <input type="text" name="" class="form-control" placeholder="Candidate Name" id="candidate_name">
+                    </div>
+                    <div class="col-6">
+                        <label for="">Interview Date</label>
+                        <input type="date" name="" class="form-control" placeholder="Password" id="interview_dt">
+                    </div>
+                    <div class="col-6">
+                        <label for="">Interviewer</label>
+                        <select name="" id="interviewer" class="form-control" >
+                            <option value="">Select Interviewer</option>
+                            {% for i in user_interview %}
+                                <option value="{{i.id}}">{{i.username}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="col-12">
+                        <label for="">Notes</label>
+                        <input type="text" name="" class="form-control" placeholder="Notes" id="notes">
+                    </div>
+               
+                </div>
+			</div>
+			<div class="modal-footer bg-whitesmoke br">
+			<button type="button" class="btn btn-primary" onclick="schedule_interview()" >Save</button>
+			</div>
+		</div>
+		</div>
+	</div>
+
+{% endblock %}
+
+{% block customScripts %} 
+	<script>
+        $("#interviewer_tbl").DataTable()
+        $('#addButton').click(function() {
+        $('#exampleModalCenter').modal('show');
+    });
+
+
+    function showToast(status, message) {
+    if (status === 1) {
+        iziToast.success({
+            title: 'Success',
+            message: message,
+            position: 'topRight'
+        });
+    } else {
+        iziToast.error({
+            title: 'Error',
+            message: message,
+            position: 'topRight'
+        });
+    }
+}
+
+function schedule_interview(){
+    var title = $('#title').val()
+    var candidate_name = $('#candidate_name').val()
+    var interview_dt = $('#interview_dt').val()
+    var interviewer = $('#interviewer').val()
+    var notes = $('#notes').val()
+
+    if (title == ""){
+        showToast(0, 'Please enter title')
+    }
+    else if (candidate_name == ""){
+        showToast(0, 'Please enter candidate name')
+    }
+    else if (interview_dt == ""){
+        showToast(0, 'Please enter Interview date')
+    }
+    else if (interviewer == ""){
+        showToast(0, 'Please enter interviewer')
+    }
+    else{
+
+        var data = {
+            'title':title,
+            'candidate_name':candidate_name,
+            'interview_dt':interview_dt,
+            'interviewer':interviewer,
+            'notes':notes,
+        }
+
+        $.ajax({
+            method:"POST",
+            url:'/schedule_interview/',
+            data:data,
+            success:async function(response){
+                if (response.status == 1){
+                    await showToast(1, response.msg)
+                    location.reload()
+                }
+                else{
+                    showToast(0, response.msg)
+                }
+            }
+        })
+
+    }
+}
+
+    </script>
+{% endblock %}

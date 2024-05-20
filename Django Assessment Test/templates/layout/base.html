@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <!-- Mirrored from radixtouch.in/templates/zivi/source/light/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 11 Jul 2020 10:12:39 GMT -->
+<head>
+
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+    <!-- <title>Dashboard</title> -->
+    <!-- General CSS Files -->
+    <link rel="stylesheet" href="{% static 'assets/css/app.min.css'%}">
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/style.css'%}">
+    <link rel="stylesheet" href="{% static 'assets/css/components.css'%}">
+    <!-- Custom style CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/custom.css'%}">
+    <link rel="stylesheet" href="{% static 'assets/bundles/prism/prism.css'%}">
+    
+    <link rel='shortcut icon' type='image/x-icon'  />
+	<link rel="stylesheet" href="{% static 'assets/bundles/pretty-checkbox/pretty-checkbox.min.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/css/select2.min.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/bundles/datatables/datatables.min.css'%}">
+	<link rel="stylesheet" href="{% static 'assets/bundles/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css'%}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css">
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.8/dist/sweetalert2.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+   
+
+    {% block customCDNS %}{% endblock %}
+
+    {% block customStyles %}{% endblock %}
+</head>
+<body>
+    <div id="app"></div>
+    <div class="loader" id= "loading"></div>
+    <div id="app-page">
+        <div class="main-wrapper main-wrapper-1">
+            {% include 'layout/header.html' %}
+            {% include 'layout/sidebar.html' %}
+            <div class="main-content">
+                <section class="section">
+                    <ul class="breadcrumb breadcrumb-style ">
+                        <li class="breadcrumb-item">
+                        <h5 class="page-title m-b-0">
+                            {% block pageTitle %}{% endblock %}
+                        </h5>
+                        </li>
+                    
+                    </ul>
+                    <div class="section-body">
+                        {% block content %}{% endblock %}
+                    </div>
+                </section>
+            </div>
+        </div>
+        {% include 'layout/footer.html' %}
+
+    </div>
+
+    <script>
+        $(document).ajaxStart(function () {
+            //ajax request went so show the loading image
+            $("#loading").show();
+        })
+        .ajaxStop(function () {
+            //got response so hide the loading image
+            $("#loading").hide();
+        });
+    </script>
+    <!-- General JS Scripts -->
+    <script src="{% static 'assets/js/app.min.js'%}"></script>
+        
+    <script src="{% static 'assets/bundles/datatables/datatables.min.js'%}"></script>
+    <script src="{% static 'assets/bundles/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js'%}"></script>	
+    <script src="{% static 'assets/js/page/datatables.js'%}"></script>
+    
+
+    <script src="{% static 'assets/bundles/apexcharts/apexcharts.min.js'%}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
+    <script src="{% static 'assets/bundles/amcharts4/core.js'%}"></script>
+    <script src="{% static 'assets/bundles/amcharts4/charts.js'%}"></script>
+
+    <script src="{% static 'assets/bundles/select2.full.min.js'%}"></script>
+
+    <script src="{% static 'assets/bundles/amcharts4/animated.js'%}"></script>
+    <script src="{% static 'assets/bundles/jquery.sparkline.min.js'%}"></script>age Specific JS File -->
+    <script src="{% static 'assets/js/page/index.js'%}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.8/dist/sweetalert2.all.min.js"></script>
+    <!-- Template JS File -->
+    <script src="{% static 'assets/js/scripts.js'%}"></script>
+    <script src="{% static 'assets/bundles/prism/prism.js'%}"></script>
+    
+    
+    <!-- Custom JS File -->
+    <script src="{% static 'assets/js/custom.js'%}"></script>
+    <script type="module" src="{% static 'website/js/header.js' %}"></script>
+
+    {% block customScripts %}{% endblock %}
+</body>
+</html>
