@@ -21,8 +21,14 @@ def generate_prime_string(limit):
         num += 1
     return prime_string
 
+
+
 def solution(n):
     prime_string = generate_prime_string(10005)
+    '''
+    235 71113 1719 23293137
+    index = 3:3+5 = 3:8
+    '''
     return prime_string[n:n+5]
 
 
